@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!
+  before_action :event_owner!, only: [:edit, :update, :destroy]
 
   # GET /events
   # GET /events.json
@@ -64,6 +65,15 @@ class EventsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    def event_owner!
+      authenticate_user!
+      if @event.organizer_id != current_user.id
+        redirect_to events_path
+        flash[:notice] = "You do not have the necessary permission."
+      end
+    end
+
     def set_event
       @event = Event.find(params[:id])
     end
