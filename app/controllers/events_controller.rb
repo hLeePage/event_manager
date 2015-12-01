@@ -70,12 +70,12 @@ class EventsController < ApplicationController
       authenticate_user!
       if @event.organizer_id != current_user.id
         redirect_to events_path
-        flash[:notice] = "You do not have the necessary permission."
+        flash[:notice] = "You lack permission to do this."
       end
     end
 
     def set_event
-      @event = Event.find(params[:id])
+      @event = Event.friendly.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
