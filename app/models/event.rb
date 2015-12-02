@@ -13,12 +13,12 @@ class Event < ActiveRecord::Base
     end
   end
 
-  # def all_tags
-  #   self.tags.join(',')
-  # end
+  def self.tagged_with(name)
+    Tag.find_by_name!(name).events
+  end
 
   def all_tags
-    tags.map(&:name).join(", ")
+    tags.pluck(:name).join(",")
   end
-  
+
 end
