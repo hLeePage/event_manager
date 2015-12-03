@@ -21,5 +21,6 @@ end
 
 group :development do
   gem 'foreman'
+  gem 'rails-erd'
   gem 'spring'
 end

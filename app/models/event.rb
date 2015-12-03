@@ -3,9 +3,10 @@ class Event < ActiveRecord::Base
   friendly_id :title, use: :slugged
 
   belongs_to :organizers, class_name: "User"
-
   has_many :taggings
   has_many :tags, through: :taggings
+  has_many :attendances
+  has_many :users, through: :attendances
 
   def all_tags=(names)
     self.tags = names.split(",").map do |t|
@@ -25,4 +26,7 @@ class Event < ActiveRecord::Base
     Tag.select("tags.name, count(taggings.tag_id) as count").joins(:taggings).group("tags.name")
   end
 
+  def self.event_owner(organizer_id)
+    User.find_by(id: organizer_id)
+  end
 end

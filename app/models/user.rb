@@ -5,4 +5,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :organized_events, class_name: "Event", foreign_key: "organizer_id"
+  has_many :attendances
+  has_many :events, through: :attendances
 end

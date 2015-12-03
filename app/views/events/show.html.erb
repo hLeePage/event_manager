@@ -21,13 +21,13 @@
 </p>
 
 <p>
-  <strong>Agenda:</strong>
-  <%= @event.agenda %>
+  <strong>Address:</strong>
+  <%= @event.address %>
 </p>
 
 <p>
-  <strong>Address:</strong>
-  <%= @event.address %>
+  <strong>Agenda:</strong>
+  <%= @event.agenda %>
 </p>
 
 <p>
@@ -35,11 +35,17 @@
   <%= @event.organizer_id %>
 </p>
 
+<label>Organized By:</label><br/>
+<%= @event_owner%>
+
+<br/>
+
 <p>
   <strong>Tags: </strong>
   <%= @event.all_tags %>
 </p>
 
+<%= link_to "Join", event_join_path(event_id: @event.id), class: "btn btn-success btn-small" %>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>
