@@ -21,4 +21,8 @@ class Event < ActiveRecord::Base
     tags.pluck(:name).join(",")
   end
 
+  def self.tag_counts
+    Tag.select("tags.name, count(taggings.tag_id) as count").joins(:taggings).group("tags.name")
+  end
+
 end
