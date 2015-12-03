@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :accept_request, :reject_request]
   before_filter :authenticate_user!
   before_action :event_owner!, only: [:edit, :update, :destroy]
 
@@ -70,10 +70,23 @@ class EventsController < ApplicationController
 
   def join
     @attendance = Attendance.join_event(current_user.id, params[:event_id], 'request_sent')
-    'Request Sent' if @attendance.save
-    respond_with @attendance
+   'Request Sent' if @attendance.save
+   redirect_to events_path
   end
-  
+
+  def accept_request
+    @attendance = Attendance.find_by(id: params[:attendance_id]) rescue nil
+    @attendance.accept!
+    'Applicant Accepted' if @attendance.save
+      respond_with(@attendance)
+  end
+
+   def reject_request
+    @attendance = Attendance.where(params[:attendance_id]) rescue nil
+    @attendance.reject!
+    @attendance.save
+   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

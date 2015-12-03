@@ -45,6 +45,22 @@
   <%= @event.all_tags %>
 </p>
 
+<% if user_signed_in? && @event.organizer_id == current_user.id %>
+  <label>Join Requests</label>
+  <% if @pending_requests.present? %>
+    <% @pending_requests.each do |p| %>
+      <%= p.user.email %>
+      <%= link_to 'Accept', event_accept_request_path(event_id: @event.id, attendance_id: p.id), class: "btn btn-success btn-small" %>
+      <%= link_to 'Reject', event_reject_request_path(event_id: @event.id, attendance_id: p.id), class: "btn btn-danger btn-small" %>
+    <% end %>
+  <% else %>
+    <p>No Pending Requests for This Event</p>
+  <% end %>
+<% end %>
+
+
+
+
 <%= link_to "Join", event_join_path(event_id: @event.id), class: "btn btn-success btn-small" %>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |

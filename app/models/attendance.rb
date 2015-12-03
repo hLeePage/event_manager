@@ -1,4 +1,15 @@
 class Attendance < ActiveRecord::Base
+  include Workflow
+    workflow_column :state
+    workflow do
+       state :request_sent do
+         event :accept, transitions_to: :accepted
+         event :reject, transitions_to: :rejected
+       end
+       state :accepted
+       state :rejected
+    end
+
   belongs_to :event
   belongs_to :user
 
